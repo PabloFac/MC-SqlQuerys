@@ -14,14 +14,21 @@ WHERE Status = 'active'
 ```
 *Disponibles: active, bounced, held, unsubscribed*
 
-#### Subscribers que no estan en _Sent
+#### Subscribers que estan en _Sent
 ```sql
 SELECT DISTINCT s.SubscriberKey 
 FROM _Sent s 
-WHERE s.SubscriberKey 
-  NOT IN (SELECT SubscriberKey FROM _Sent) 
+WHERE s.SubscriberKey IN (SELECT SubscriberKey FROM _Sent) 
 ```
 *Se puede usar otra DataView o DataExtension, como _Open o _Click*
+
+#### Subscribers que no estan en _Open
+```sql
+SELECT DISTINCT s.SubscriberKey 
+FROM _Sent s 
+WHERE s.SubscriberKey NOT IN (SELECT SubscriberKey FROM _Open) 
+```
+*Se puede usar otra DataView o DataExtension, como _Sent o _Click*
 
 ## Bounces
 
