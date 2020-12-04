@@ -1,6 +1,6 @@
 ## Advanced Querys
 
-# Query 1
+# Query 1: Envio en N dias, sin apertura en N dias
 Subscriptores que 
 - se les realizo un envío en los ultimos 90 dias, y
 - no abrieron ningun email en los ultimos 90 dias
@@ -12,7 +12,7 @@ WHERE
   Subscriberkey not in (Select Subscriberkey from _Open where EventDate > DATEADD(d,-90,GETDATE()))
 ```
 
-# Query 2
+# Query 2: Sin envio en N dias, sin apertura en N dias
 Subscriptores que 
 - no se les realizo ningun envio en los ultimos 30 dias, y
 - no abrieron ningun email en los ultimos 90 dias
@@ -24,7 +24,7 @@ WHERE
   Subscriberkey not in (Select Subscriberkey from _Open where EventDate > DATEADD(d,-90,GETDATE()))
 ```
 
-# Query 3
+# Query 3: No nuevo subscriptor en N dias, sin envio en N dias, sin apertura en N dias
 Subscriptores que 
 - se registraron hace mas de 30 dias,
 - no se les realizo ningun envio en los ultimos 30 dias, y
