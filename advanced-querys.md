@@ -67,3 +67,28 @@ FROM _Sent s
 LEFT JOIN _Open o ON o.SubscriberKey = s.SubscriberKey AND o.JobID = s.JobID 
 GROUP BY s.SubscriberKey
 ```
+
+# Query 7: Subscriptores filtrados por cantidad de envios, fecha de ultimo envio y ultima apertura.
+```sql
+SELECT 
+    SubscriberKey, 
+    DateJoined,
+    Sents,
+    LastSentDate,
+    LastOpenDate
+FROM (SELECT 
+    su.SubscriberKey,
+    su.DateJoined,
+    COUNT(s.EventDate) AS Sents,
+    MAX(s.EventDate) AS LastSentDate,
+    MAX(o.EventDate) AS LastOpenDate
+FROM _Subscribers su
+LEFT JOIN _Sent s ON s.SubscriberKey = su.SubscriberKey
+LEFT JOIN _Open o ON o.SubscriberKey = su.SubscriberKey AND o.JobID = s.JobID 
+GROUP BY su.SubscriberKey, su.DateJoined) Query6
+WHERE 
+ Sents > 2 AND 
+ DateJoined < DATEADD(d, -30, GETDATE()) AND
+ LastOpenDate < DATEADD(d, -90, GETDATE())
+```
+
