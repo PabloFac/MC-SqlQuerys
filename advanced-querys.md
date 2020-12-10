@@ -56,4 +56,14 @@ LEFT JOIN _Open o ON o.SubscriberKey = su.SubscriberKey
 GROUP BY su.SubscriberKey
 ```
 
-
+# Query 6: Cantidad de envios, fecha de ultimo envio y ultima apertura de cada subscriptor
+```sql
+SELECT 
+    s.SubscriberKey, 
+    COUNT(s.EventDate) AS Sents,
+    MAX(s.EventDate) AS LastSentDate,
+    MAX(o.EventDate) AS LastOpenDate
+FROM _Sent s 
+LEFT JOIN _Open o ON o.SubscriberKey = s.SubscriberKey AND o.JobID = s.JobID 
+GROUP BY s.SubscriberKey
+```
