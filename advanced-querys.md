@@ -38,4 +38,22 @@ WHERE
   Subscriberkey not in (Select Subscriberkey from _Open where EventDate > DATEADD(d,-90,GETDATE()))
 ```
 
+# Query 4: Cantidad de Envios a cada subscriptor
+```sql
+SELECT su.SubscriberKey, COUNT(s.EventDate) AS Envios
+FROM _Subscribers su
+LEFT JOIN _Sent s ON s.SubscriberKey = su.SubscriberKey
+GROUP BY su.SubscriberKey
+```
+
+# Query 5: Fecha de ultima apertura de cada subscriptor
+```sql
+SELECT 
+    su.SubscriberKey, 
+    Max(o.EventDate) AS LastOpenDate
+FROM _Subscribers su
+LEFT JOIN _Open o ON o.SubscriberKey = su.SubscriberKey
+GROUP BY su.SubscriberKey
+```
+
 
